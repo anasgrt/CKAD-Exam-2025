@@ -1,0 +1,49 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 14: SecurityContext - Edit Existing Deployment                       ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~7%                                                                   ║
+║ Domain: Application Environment, Configuration & Security                    ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+A Deployment named 'secure-app' exists in namespace 'secure-ns'. The deployment
+is currently paused and needs security hardening before being resumed.
+
+Do NOT delete the deployment. You must edit it in-place.
+
+TASKS:
+------
+1. Edit the existing Deployment 'secure-app' (do NOT delete and recreate)
+
+2. Add Pod-level securityContext:
+   - runAsUser: 10000
+
+3. Add Container-level securityContext to the 'app' container:
+   - allowPrivilegeEscalation: false
+   - capabilities:
+     - add: ["NET_BIND_SERVICE"]
+
+4. Resume the paused deployment rollout
+
+5. Wait for the rollout to complete successfully
+
+NAMESPACE:
+----------
+secure-ns
+
+HINTS:
+------
+• Use 'kubectl edit deployment secure-app -n secure-ns' to edit in-place
+• Pod securityContext goes under spec.template.spec.securityContext
+• Container securityContext goes under spec.template.spec.containers[].securityContext
+• Resume with: kubectl rollout resume deployment/secure-app -n secure-ns
+• Check rollout: kubectl rollout status deployment/secure-app -n secure-ns
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-14-SecurityContext verify

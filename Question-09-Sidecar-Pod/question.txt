@@ -1,0 +1,54 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 9: Multi-Container Sidecar Pod                                      ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~7%                                                                   ║
+║ Domain: Application Design and Build                                         ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster3
+
+SCENARIO:
+---------
+You need to create a pod with two containers that share a volume for log
+aggregation purposes.
+
+TASKS:
+------
+Create a Pod named 'sidecar-pod' in namespace 'default' with two containers
+that share a volume:
+
+1. Main container:
+   - Name: main-app
+   - Image: busybox
+   - Command: ["/bin/sh", "-c", "while true; do echo $(date) - Log entry >> /var/log/app.log; sleep 5; done"]
+   - Mount the shared volume at /var/log
+
+2. Sidecar container (using native sidecar pattern):
+   - Name: log-sidecar
+   - Image: busybox
+   - Command: ["/bin/sh", "-c", "tail -F /var/log/app.log"]
+   - Mount the shared volume at /var/log
+   - restartPolicy: Always (native sidecar - defined in initContainers)
+
+3. Shared volume:
+   - Name: log-volume
+   - Type: emptyDir
+
+NAMESPACE:
+----------
+default
+
+HINTS:
+------
+• Native sidecar containers are defined in initContainers with restartPolicy: Always
+• Both containers mount the same volume at the same path
+• emptyDir volume is created when pod starts and persists while pod runs
+• Sidecar reads logs written by main container via shared volume
+• Use spec.volumes[] and spec.initContainers[].volumeMounts[] for sidecar
+• tail -F (capital F) follows by filename, surviving log rotation
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-09-Sidecar-Pod verify

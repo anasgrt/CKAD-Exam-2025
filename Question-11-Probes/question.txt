@@ -1,0 +1,50 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 11: Modify Deployment Twice, Then Rollback                          ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~7%                                                                   ║
+║ Domain: Application Design and Build                                         ║
+║ Pattern: Effective_Scallion63 (96%) - "Modify deployment twice, then rollback"║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+A Deployment named 'web-app' exists in namespace 'health-ns'. You need to
+make changes to the deployment and then demonstrate rollback capability.
+
+TASKS:
+------
+1. First modification: Add a Readiness Probe to the container:
+   - Type: httpGet
+   - Path: /healthz
+   - Port: 8080
+   - initialDelaySeconds: 5
+   - periodSeconds: 10
+
+2. Second modification: Update the image from nginx:1.21 to nginx:1.22
+
+3. Verify both changes are applied and pods are running
+
+4. Rollback the Deployment to the PREVIOUS revision (before the image change)
+   - After rollback, image should be nginx:1.21 but readiness probe should remain
+
+5. Verify the rollback was successful
+
+NAMESPACE:
+----------
+health-ns
+
+HINTS:
+------
+• Add probe: kubectl edit deployment or kubectl patch
+• Change image: kubectl set image deployment/web-app nginx=nginx:1.22 -n health-ns
+• Check history: kubectl rollout history deployment/web-app -n health-ns
+• Rollback: kubectl rollout undo deployment/web-app -n health-ns
+• Use 'kubectl rollout status' to wait for completion
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-11-Probes verify

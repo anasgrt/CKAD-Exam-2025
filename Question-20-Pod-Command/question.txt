@@ -1,0 +1,40 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 20: Pod with Command                                                 ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~4%                                                                   ║
+║ Domain: Application Design and Build                                         ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+You need to create a simple Pod with a custom command.
+
+TASKS:
+------
+1. Create a Pod named 'simple-pod' in namespace 'cmd-ns'
+
+2. Use image 'busybox:1.35'
+
+3. Configure the Pod with command:
+   - sleep 3600
+
+4. Ensure the Pod runs and stays in Running state
+
+NAMESPACE:
+----------
+cmd-ns
+
+HINTS:
+------
+• Use command field for the main command
+• Use args for command arguments
+• Alternative: command: ["sleep", "3600"]
+• busybox exits immediately without a command
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-20-Pod-Command verify

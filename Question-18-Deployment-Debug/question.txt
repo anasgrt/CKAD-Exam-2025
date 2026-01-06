@@ -1,0 +1,45 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 18: Fix Deployment - Container Name & Image + Resume Rollout        ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~8%                                                                   ║
+║ Domain: Application Deployment                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+A Deployment named 'api-server' in namespace 'api-ns' needs to be corrected.
+The deployment is currently paused and has incorrect container configuration.
+
+Do NOT delete the deployment - you must edit it in-place.
+
+TASKS:
+------
+1. Edit the existing Deployment 'api-server' (do NOT delete and recreate)
+
+2. Fix the following issues:
+   - Change the container name from 'wrong-name' to 'api-container'
+   - Change the image from 'nginx:wrong' to 'nginx:1.21'
+
+3. Resume the paused deployment rollout
+
+4. Wait for the rollout to complete successfully
+
+NAMESPACE:
+----------
+api-ns
+
+HINTS:
+------
+• Use 'kubectl edit deployment api-server -n api-ns' to edit in-place
+• Container name is at spec.template.spec.containers[].name
+• Resume with: kubectl rollout resume deployment/api-server -n api-ns
+• Check rollout: kubectl rollout status deployment/api-server -n api-ns
+• Do NOT delete and recreate - you will lose history
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-18-Deployment-Debug verify

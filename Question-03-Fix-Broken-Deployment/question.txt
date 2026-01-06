@@ -1,0 +1,42 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 3: Fix Broken Deployment (Incorrect Secret)                         ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~5%                                                                   ║
+║ Domain: Application Deployment                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+A Deployment named 'backend-deployment' in namespace 'staging' is failing
+to start. The pods are in CrashLoopBackOff state.
+
+The issue is caused by an incorrect Secret reference. The Deployment is trying
+to use a Secret named 'db-credentials-old' but the correct Secret is named
+'db-credentials'.
+
+TASKS:
+------
+1. Investigate and determine the exact issue causing the pod failures
+
+2. Fix the Deployment so that it references the correct Secret 'db-credentials'
+
+3. Ensure the pods start successfully after the fix
+
+NAMESPACE:
+----------
+staging
+
+HINTS:
+------
+• Check pod status: kubectl get pods -n staging
+• Check pod events: kubectl describe pod <pod-name> -n staging
+• Verify secrets: kubectl get secrets -n staging
+• Use kubectl edit or patch to fix the deployment
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-03-Fix-Broken-Deployment verify

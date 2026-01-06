@@ -1,0 +1,38 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 19: Service Selector Fix                                             ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~6%                                                                   ║
+║ Domain: Services & Networking                                                ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+A Service named 'frontend-svc' in namespace 'svc-ns' has no endpoints.
+The Deployment 'frontend-app' exists and pods are running.
+
+TASKS:
+------
+1. Troubleshoot why the Service has no endpoints
+
+2. Fix the Service selector to match the Deployment's pod labels
+
+3. Verify the Service now has endpoints
+
+NAMESPACE:
+----------
+svc-ns
+
+HINTS:
+------
+• Check Service selector: kubectl get svc frontend-svc -n svc-ns -o yaml
+• Check Pod labels: kubectl get pods --show-labels -n svc-ns
+• Check endpoints: kubectl get endpoints frontend-svc -n svc-ns
+• Service selector must match Pod labels exactly
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-19-Service-Selector verify

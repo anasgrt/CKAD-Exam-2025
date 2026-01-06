@@ -1,0 +1,40 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 1: Ingress Creation                                                 ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~7%                                                                   ║
+║ Domain: Services & Networking                                                ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+You need to expose an existing web application to external traffic using an Ingress.
+The Service 'webapp' has already been created and exposes port 8080.
+
+TASKS:
+------
+1. Create an Ingress resource named 'ingress-name' in the 'external' namespace
+   that exposes the application to the URL 'external.app.local'
+
+2. Ensure the Ingress routes all traffic from the root path '/' to the
+   backend service 'webapp' on port 8080
+
+3. Use the ingress class 'nginx-exam'
+
+NAMESPACE:
+----------
+external
+
+HINTS:
+------
+• Use kubectl create ingress --help for syntax
+• Remember to specify ingressClassName in the spec
+• The pathType should be 'Prefix' for root path routing
+• Kubernetes docs: search for "ingress"
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-01-Ingress-Creation verify

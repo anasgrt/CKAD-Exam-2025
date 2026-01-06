@@ -1,0 +1,36 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 13: Docker Build + OCI Export                                        ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~7%                                                                   ║
+║ Domain: Application Design and Build                                         ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+You are working on a node with Docker/Podman installed.
+
+SCENARIO:
+---------
+A Dockerfile is provided at /tmp/app/Dockerfile.
+You need to build and export the container image.
+
+TASKS:
+------
+1. Review the Dockerfile at /tmp/app/Dockerfile
+
+2. Build the container image with tag: myapp:v1
+
+3. Export the image to OCI format at: /tmp/myapp-v1.tar
+
+4. Verify the exported file exists
+
+HINTS:
+------
+• docker build -t <tag> <path>
+• docker save -o <output.tar> <image>
+• For podman: podman build, podman save
+• OCI export creates a tarball of the image
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-13-Docker-Build verify

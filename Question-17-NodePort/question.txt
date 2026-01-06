@@ -1,0 +1,42 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 17: Expose Deployment with NodePort                                 ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~5%                                                                   ║
+║ Domain: Services & Networking                                                ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster2
+
+SCENARIO:
+---------
+A Deployment named 'frontend-app' exists in namespace 'web-ns'. The application
+runs on port 8080 inside the container.
+
+TASKS:
+------
+Create a NodePort Service named 'frontend-service' in namespace 'web-ns' that:
+1. Exposes the deployment externally
+2. Service port: 80
+3. Target port: 8080
+4. NodePort: 30080
+
+Ensure traffic from outside the cluster can reach the application.
+
+NAMESPACE:
+----------
+web-ns
+
+HINTS:
+------
+• Use kubectl expose deployment or create service YAML
+• Service selector must match deployment pod labels
+• NodePort range is 30000-32767
+• targetPort is the container port (8080)
+• port is the service port (80)
+• nodePort is the external port (30080)
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-17-NodePort verify

@@ -1,0 +1,45 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 10: Fix Deprecated API Version                                       ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~5%                                                                   ║
+║ Domain: Application Environment, Configuration                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+A team member has left a legacy manifest file at /tmp/legacy-deployment.yaml
+The manifest uses deprecated API version (apps/v1beta1).
+
+TASKS:
+------
+1. Review the manifest at /tmp/legacy-deployment.yaml
+
+2. Update the manifest to use the current stable API version (apps/v1)
+
+3. Make all necessary changes to match the apps/v1 API specification:
+   - Update apiVersion
+   - Add selector field (required in apps/v1)
+   - Ensure selector.matchLabels matches template.metadata.labels
+
+4. Apply the corrected manifest to namespace 'migration-ns'
+
+5. Ensure the Deployment resource is created successfully
+
+NAMESPACE:
+----------
+migration-ns
+
+HINTS:
+------
+• Check API deprecations: kubectl api-versions | grep apps
+• Key v1 change: selector field is REQUIRED in apps/v1
+• selector.matchLabels MUST match template.metadata.labels
+• kubernetes.io documentation for Deployment v1 spec
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-10-Deprecated-API verify

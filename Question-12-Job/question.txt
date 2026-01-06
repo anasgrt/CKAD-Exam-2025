@@ -1,0 +1,46 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 12: Job with Failure Policy                                          ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~6%                                                                   ║
+║ Domain: Application Design and Build                                         ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+You need to create a Kubernetes Job with specific failure handling policies.
+
+TASKS:
+------
+1. Create a Job named 'backup-job' in namespace 'job-ns'
+
+2. Use image 'busybox:1.35'
+
+3. Configure the Job with command:
+   - sh -c "echo Starting backup && sleep 5 && echo Backup complete"
+
+4. Set the following Job parameters:
+   - backoffLimit: 3 (retry count on failure)
+   - activeDeadlineSeconds: 60 (max time for Job to complete)
+
+   NOTE: In the actual exam, specific values will be provided in the question
+
+5. Ensure the Job completes successfully
+
+NAMESPACE:
+----------
+job-ns
+
+HINTS:
+------
+• backoffLimit controls retry count on failure
+• activeDeadlineSeconds is the max time for the Job to complete
+• Jobs create Pods to run the task
+• Use 'kubectl get jobs' and 'kubectl get pods' to monitor
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-12-Job verify

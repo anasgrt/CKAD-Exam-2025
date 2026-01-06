@@ -1,0 +1,38 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 2: Fix Broken Ingress (404 Error)                                   ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~5%                                                                   ║
+║ Domain: Services & Networking                                                ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster2
+
+SCENARIO:
+---------
+An Ingress resource named 'web-ingress' in namespace 'production' is returning
+404 errors when users try to access the application.
+
+TASKS:
+------
+1. Troubleshoot and fix the Ingress configuration so that requests to
+   'app.example.com' are properly routed to the backend service 'web-service'
+   on port 80
+
+2. Do NOT create any new resources. Only fix the existing Ingress.
+
+NAMESPACE:
+----------
+production
+
+HINTS:
+------
+• Check current ingress configuration with kubectl describe
+• Verify backend service exists and has endpoints
+• Common issues: incorrect host, service name, port, path, or pathType
+• Check if ingressClassName is missing
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-02-Fix-Broken-Ingress verify

@@ -1,0 +1,46 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 15: Find Existing ServiceAccount and Apply to Deployment            ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~8%                                                                   ║
+║ Domain: Application Environment, Configuration & Security                    ║
+║ Pattern: Effective_Scallion63 (96%) - "Find existing SA and apply it"        ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+A Deployment named 'scraper-app' in namespace 'rbac-ns' needs to list pods
+in the namespace, but currently gets "Forbidden" errors.
+
+Several ServiceAccounts already exist in the namespace. One of them has the
+correct permissions via an existing Role and RoleBinding.
+
+TASKS:
+------
+1. Examine the existing ServiceAccounts in namespace 'rbac-ns'
+
+2. Examine the existing Role and RoleBinding to find which ServiceAccount
+   has permissions to list pods
+
+3. Update the Deployment 'scraper-app' to use the correct existing
+   ServiceAccount (do NOT create new RBAC resources)
+
+4. Verify the Deployment pods can now list pods in the namespace
+
+NAMESPACE:
+----------
+rbac-ns
+
+HINTS:
+------
+• List ServiceAccounts: kubectl get sa -n rbac-ns
+• Check RoleBinding subjects: kubectl get rolebinding -n rbac-ns -o yaml
+• Update deployment SA: kubectl set serviceaccount deployment/scraper-app <sa-name> -n rbac-ns
+• Test permissions: kubectl auth can-i list pods --as=system:serviceaccount:rbac-ns:<sa-name> -n rbac-ns
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-15-RBAC-Fix verify

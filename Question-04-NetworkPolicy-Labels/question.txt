@@ -1,0 +1,54 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 4: NetworkPolicy - Adjust Pod Labels for Communication              ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~7%                                                                   ║
+║ Domain: Services & Networking                                                ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster3
+
+SCENARIO:
+---------
+In namespace 'app-ns', there are 4 NetworkPolicies that control traffic flow
+between pods:
+  - front-pod
+  - api-pod
+  - db-pod
+
+The 'api-pod' needs to receive inbound traffic from 'front-pod' AND send
+outbound traffic to 'db-pod'.
+
+Currently, communication is blocked due to missing labels on the 'api-pod'.
+
+** Do NOT create, modify, or delete any existing NetworkPolicies **
+** Make changes ONLY to the pod labels **
+
+TASKS:
+------
+1. Examine ALL 4 NetworkPolicies in the namespace to understand their pod
+   selectors and ingress/egress rules
+
+2. WITHOUT modifying any NetworkPolicy, add the appropriate labels to
+   the 'api-pod' so that:
+   - 'api-pod' can receive traffic from 'front-pod'
+   - 'api-pod' can send traffic to 'db-pod'
+
+3. Verify connectivity is established after adding the labels
+
+NAMESPACE:
+----------
+app-ns
+
+HINTS:
+------
+• Use kubectl get networkpolicy -n app-ns to list all policies
+• Use kubectl describe networkpolicy <name> to see selectors
+• NetworkPolicy podSelector determines which pods the policy applies to
+• NetworkPolicy ingress.from.podSelector determines allowed sources
+• Use kubectl label pod to add labels to a pod
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-04-NetworkPolicy-Labels verify

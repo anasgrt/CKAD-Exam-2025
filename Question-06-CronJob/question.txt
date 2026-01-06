@@ -1,0 +1,41 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 6: CronJob Configuration                                            ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~5%                                                                   ║
+║ Domain: Application Design and Build                                         ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+TASKS:
+------
+1. Create a CronJob named 'my-cronjob' that runs every 30 minutes with the
+   following specifications:
+   - Image: busybox
+   - Command: /bin/sh -c "date; echo Hello"
+   - completions: 8 (number of times the job must complete successfully)
+   - startingDeadlineSeconds: 17 (deadline to start if missed)
+   - activeDeadlineSeconds: 8 (max time for Job to complete)
+   - successfulJobsHistoryLimit: 3 (number of successful jobs to keep)
+   - failedJobsHistoryLimit: 1 (number of failed jobs to keep)
+
+   NOTE: In the actual exam, specific values will be provided in the question
+
+2. Then create a Job named 'my-job' from the CronJob to trigger it manually.
+
+NAMESPACE:
+----------
+default
+
+HINTS:
+------
+• Schedule format: "*/30 * * * *" (every 30 minutes)
+• startingDeadlineSeconds, successfulJobsHistoryLimit, failedJobsHistoryLimit → CronJob spec level
+• completions, activeDeadlineSeconds → jobTemplate.spec level
+• Use: kubectl create job --from=cronjob/<name> <job-name>
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-06-CronJob verify

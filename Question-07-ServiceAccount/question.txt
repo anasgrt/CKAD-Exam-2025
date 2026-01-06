@@ -1,0 +1,46 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 7: RBAC - ServiceAccount, Role, and RoleBinding                     ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~6%                                                                   ║
+║ Domain: Configuration and Security (RBAC)                                    ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster2
+
+SCENARIO:
+---------
+A Deployment named 'secure-app' in namespace 'secure-ns' is failing with
+"Forbidden" errors when trying to list pods in the namespace.
+
+The deployment is using the default ServiceAccount which does not have the
+required permissions.
+
+TASKS:
+------
+1. Create a new ServiceAccount named 'pod-reader-sa' in namespace 'secure-ns'
+
+2. Create a Role named 'pod-reader-role' in namespace 'secure-ns' that allows:
+   - get, list, watch on pods
+
+3. Create a RoleBinding named 'pod-reader-binding' that binds the Role to
+   the ServiceAccount
+
+4. Update the Deployment 'secure-app' to use the new ServiceAccount 'pod-reader-sa'
+
+NAMESPACE:
+----------
+secure-ns
+
+HINTS:
+------
+• kubectl create serviceaccount <name> -n <ns>
+• kubectl create role <name> --verb=get,list,watch --resource=pods -n <ns>
+• kubectl create rolebinding <name> --role=<role> --serviceaccount=<ns>:<sa> -n <ns>
+• kubectl set serviceaccount deployment/<name> <sa-name> -n <ns>
+• Check permissions: kubectl auth can-i list pods --as=system:serviceaccount:<ns>:<sa>
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-07-ServiceAccount verify

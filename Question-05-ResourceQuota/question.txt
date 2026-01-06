@@ -1,0 +1,47 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 5: ResourceQuota and LimitRange Compliance                          ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~5%                                                                   ║
+║ Domain: Application Environment, Configuration and Security                  ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster2
+
+SCENARIO:
+---------
+The namespace 'limited-ns' has resource constraints configured through both
+a ResourceQuota and a LimitRange.
+
+TASKS:
+------
+1. Examine the existing ResourceQuota and LimitRange in namespace 'limited-ns'
+   to understand the resource constraints.
+
+2. Create a Pod named 'quota-pod' in namespace 'limited-ns' with the following
+   specifications:
+   - Image: nginx
+   - Container name: nginx-container
+   - Set memory requests and limits to HALF of the maximum memory limit
+     allowed by the LimitRange
+   - Set CPU requests and limits to HALF of the maximum CPU limit
+     allowed by the LimitRange
+
+3. Ensure the Pod complies with the namespace ResourceQuota
+
+NAMESPACE:
+----------
+limited-ns
+
+HINTS:
+------
+• To view LimitRange: kubectl describe limitrange -n limited-ns
+• To view ResourceQuota: kubectl describe resourcequota -n limited-ns
+• LimitRange has memory max of 640Mi - calculate HALF of this value
+• Both requests and limits are required when quota is set
+• Use spec.containers[].resources.requests and limits
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-05-ResourceQuota verify

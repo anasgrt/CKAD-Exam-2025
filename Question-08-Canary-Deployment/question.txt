@@ -1,0 +1,50 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 8: Canary Deployment                                                ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~8%                                                                   ║
+║ Domain: Application Deployment                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+A Deployment named 'web-app' with 5 replicas exists in namespace 'canary-ns',
+using image 'nginx:1.19'. A Service named 'web-service' routes traffic to pods
+with label 'app=web-app'.
+
+IMPORTANT: There is a 10 pod limit in the namespace. Plan your replicas accordingly.
+
+TASKS:
+------
+1. Implement a canary deployment by creating a new Deployment named
+   'web-app-canary' with the following specifications:
+   - Calculate the correct number of replicas so that 20% of service traffic
+     goes to the canary deployment (consider the 10 pod limit)
+   - Image: nginx:1.20
+   - Labels: app=web-app, version=canary (pods must have BOTH labels)
+
+2. Ensure the existing Service 'web-service' routes traffic to both the
+   stable and canary pods (both must have app=web-app label)
+
+3. After canary deployment: stable should have 4 replicas, canary should have 1
+   (4+1=5 total, with 20% = 1/5 going to canary)
+
+NAMESPACE:
+----------
+canary-ns
+
+HINTS:
+------
+• Canary deployment runs alongside stable deployment
+• Both deployments must have pods with 'app=web-app' label for service routing
+• For 20% canary traffic: stable=4, canary=1 (1 out of 5 = 20%)
+• You may need to scale down the stable deployment to stay within pod limit
+• Use 'version' label to distinguish stable from canary
+• Verify with: kubectl get endpoints web-service -n canary-ns
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-08-Canary-Deployment verify

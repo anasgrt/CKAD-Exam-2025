@@ -1,0 +1,44 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ QUESTION 16: Secret with Multiple Keys                                        ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║ Weight: ~6%                                                                   ║
+║ Domain: Application Environment, Configuration & Security                    ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+CONTEXT:
+--------
+kubectl config use-context k8s-cluster1
+
+SCENARIO:
+---------
+A Deployment named 'db-app' in namespace 'secret-ns' is using hardcoded
+environment variables (env). You need to migrate it to use a Secret instead.
+
+TASKS:
+------
+1. Create a Secret named 'db-secret' in namespace 'secret-ns' with the following keys:
+   - DB_HOST=mysql.database.svc
+   - DB_USER=admin
+   - DB_PASSWORD=secret123
+   - DB_NAME=myapp
+
+2. Update the existing Deployment named 'db-app' in namespace 'secret-ns' to:
+   - Load the secret keys as environment variables using secretKeyRef
+   - Each env var should reference the corresponding key from the secret
+
+3. Ensure the Deployment pods restart with the new environment variables
+
+NAMESPACE:
+----------
+secret-ns
+
+HINTS:
+------
+• kubectl create secret generic <name> --from-literal=key=value
+• Use valueFrom.secretKeyRef to reference secret keys in env vars
+• kubectl edit deployment or kubectl set env can modify deployments
+• Use kubectl rollout status to verify the update
+
+VERIFICATION:
+-------------
+When complete, run: ./scripts/run-question.sh Question-16-Secret-EnvFrom verify
